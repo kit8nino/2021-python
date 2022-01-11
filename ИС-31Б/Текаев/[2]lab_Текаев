@@ -1,0 +1,37 @@
+import math
+#1 e^x
+Snt = {'Т': 20, 'Е': 6, 'К' : 12, 'А': 1, 'Е' : 6, 'В' : 3}
+for i in Snt:
+    Snt[i] = math.exp(Snt[i])
+print(Snt)
+
+#2
+sorted_Snt = sorted(Snt.values())
+Snt_1 = {}
+for i in sorted_Snt:
+    for j in Snt.keys():
+        if Snt[j] == i:
+            Snt_1[j] = Snt[j]
+            break
+    print(Snt_1)
+#3
+
+bs1 = {}
+sort_bs1 = sorted(Snt, key = Snt.get)
+for i in sort_bs1:
+    bs1[i] = Snt[i]
+
+#5
+
+list = []
+for i in Snt:
+    list.append(Snt[i])
+srz = sum(list) // len(list)
+
+lst1 = []
+lst2 = []
+for i in list:
+    if i < srz:
+        lst1.append(i)
+    elif i >= srz:
+        lst2.append(i)
