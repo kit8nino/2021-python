@@ -1,0 +1,189 @@
+def DFS(graph, sourceVertex, discoveredArray,vertexList):
+    discoveredArray[sourceVertex]=True
+    vertexList.append(sourceVertex)
+    adjacentVertices=getAdjacentVertices(graph,sourceVertex)
+    for i in range(len(adjacentVertices)):
+        if (discoveredArray[adjacentVertices[i]] == False):
+                    DFS( graph,adjacentVertices[i], discoveredArray, vertexList)
+    adjacentVertices.clear()
+
+def buildGraphFromArray(array,rows,columns):
+    resultList = list()
+    for i in range(rows):
+        for j in range(columns):
+            if (array[i][j] != -1):
+                neighbors = []
+                neighbors.append(0)
+                neighbors.append(0)
+                neighbors.append(0)
+                neighbors.append(0)
+                if (i > 0):
+                    neighbors[0] = array[i-1 [j]
+                    if (neighbors[0] != -1):
+                        resultList.append(str(array[i][j])+"->"+str(neighbors[0]))
+                if (i < rows - 1):
+                    neighbors[1] = array[i + 1][j]
+                    if (neighbors[1] != -1):
+                        resultList.append(str(array[i][j])+"->"+str(neighbors[1]))
+                if (j > 0):
+                    neighbors[2] = array[i][j-1];
+                    if (neighbors[2] != -1):
+                        resultList.append(str(array[i][j])+"->"+str(neighbors[2]))
+                if (j < columns - 1):
+                    neighbors[3] = array[i][j+1]
+                    if (neighbors[3] != -1):
+                        resultList.append(str(array[i][j])+"->"+str(neighbors[3]))
+    return resultList
+
+def getAdjacentVertices(graph,index):
+    adjacentVerticesList =list()
+    for i in range(V):
+        if (index == i):
+            continue;
+        if (graph[index][i] == 1):
+            adjacentVerticesList.append(i)
+    return adjacentVerticesList
+
+
+def BFS(graph,node):
+    queue=deque([node])
+    level ={node:0}
+    parent = {node:None}
+    while queue:
+        index = queue.popleft()
+        adjacentVertices=getAdjacentVertices(graph,index)
+        for i in range(len(adjacentVertices)):
+            if(adjacentVertices[i] not in level):
+                queue.append(adjacentVertices[i])
+                level[adjacentVertices[i]]=level[index]+1
+                parent[adjacentVertices[i]]=index
+                
+        adjacentVertices.clear()
+    return parent
+
+def Predecessor(sourceVertex,parent,path):
+    predecessor = parent[sourceVertex]
+    if(predecessor != None):
+        vertextIndex = int(predecessor)
+        path.append(vertextIndex)
+        Predecessor(vertextIndex, parent, path)
+
+file = open("Maze.txt")
+fileContent=file.readlines()
+file.close()
+for idx, ele in enumerate(fileContent):
+        fileContent[idx] = ele.replace('\n', '')
+rows = len(fileContent)
+columns = len(fileContent[0])
+maze=[]
+for i in range(rows):
+    array=[]
+    for j in range(columns):
+        array.append(fileContent[i][j])
+    maze.append(array)
+
+while True:
+    while True:
+        try:
+            input1 = int(input("Введите-y координату:"+str((rows-1))+".\n")) 
+            if input1>=rows:
+                print("Вне диапазона")
+            else:
+                break
+        except ValueError:
+            print("Введите номер")
+    while True:
+        try:
+            input2 = int(input("Введите-х координату: "+str((columns-1))+".\n")) 
+            if input2>=columns:
+                print("Вне диапазона")
+            else:
+                break  
+        except ValueError:
+            print("Введите координату ")
+    if (maze[input1][input2] == ' '):
+        maze[input1][input2] = '*'
+        break
+    else:
+        print("Это координаты стены")
+
+arrayVertex = [];
+for i in range(rows):
+    array2=[]
+    for j in range(columns):
+        array2.append(-1)
+    arrayVertex.append(array2)
+V = int(0)
+treasureVertexID = -1
+counter = int(0)
+for i in range( rows):
+    for j in range(columns):
+        if (maze[i][j] == ' ' or maze[i][j] == '*'):
+            if (maze[i][j] == '*'):
+                treasureVertexID = counter
+            V+=1
+            arrayVertex[i][j] = counter
+            counter+=1
+
+edgeList =buildGraphFromArray(arrayVertex,rows, columns)
+graph =[]
+for i in range(V):
+    array=[]
+    for j in range(V):
+        array.append(0)
+    graph.append(array)
+
+for i in range(len(edgeList)):
+    a=edgeList[i].index('-')
+    b=edgeList[i].index(">") + 1
+    c=len(edgeList[i])
+    vertexA= edgeList[i][0:a]
+    vertexB = edgeList[i][b:c]
+    graph[int(vertexA)][ int(vertexB)] = 1
+
+discoveredArray=[]
+for i in range(V):
+    discoveredArray.append(False)
+vertexList = list()
+
+DFS(graph,0,discoveredArray,vertexList)
+for i in range(len(vertexList)):
+    vertexID = vertexList[i]
+    if (vertexID == treasureVertexID):
+        break
+    for j in range(rows):
+        for k in range(columns):
+            if (arrayVertex[j][k] ==vertexID):
+                maze[j][k] = '.'
+                break
+
+parent=BFS(graph,treasureVertexID)
+path =list()
+Predecessor(counter - 1, parent, path)
+for i in range(rows):
+    for j in range(columns):
+        vertexID = arrayVertex[i][j]
+        if (vertexID != -1):
+            if (int(vertexID) == treasureVertexID):
+                continue
+            if (vertexID in path):
+                maze[i][j] = ','
+            if (int(vertexID) == counter - 1):
+                maze[i][j] = ','
+				
+mazeOneDimensional=[]
+for i in range(rows):
+    mazeOneDimensional.append("")
+
+for i in range(rows):
+    value=""
+    for j in range(columns):
+        value+=maze[i][j]
+    value+='\n'
+    mazeOneDimensional[i]=value
+
+
+
+file2=open("maze-for-me-done.txt",'w')
+file2.writelines(mazeOneDimensional)
+h=2
