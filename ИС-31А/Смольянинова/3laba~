@@ -75,7 +75,7 @@ def Predecessor(sourceVertex,parent,path):
         path.append(vertextIndex)
         Predecessor(vertextIndex, parent, path)
 
-file = open('maze-for-u.txt')
+file = open("maze")
 fileContent = file.readlines()
 file.close()
 for idx, ele in enumerate(fileContent):
