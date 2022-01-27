@@ -103,7 +103,7 @@ def bfs(maze,coord,t):
                 p[nx][ny] = (x,y)
                 used[nx][ny] = True # что бы мы больше не добавляли эту клетку когда прверяем соседа
                 queue.append((nx,ny)) # добавляем в очередь клетку
-    #print(d[t[0]][t[1]])
+    print(d[t[0]][t[1]])
     cur = t
     path = []
     while cur is not None:
