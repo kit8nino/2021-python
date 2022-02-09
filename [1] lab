@@ -1,0 +1,45 @@
+import operator
+import math
+
+# функция-генератор
+def x(n):
+    if n == 0:
+        return 1
+    yield n ** 3
+
+Nameof = dict(P = next(x(17)),  o = next(x(16)), d = next(x(5)), g = next(x(4)), u = next(x(21)), r = next(x(18)), s = next(x(19)), k = next(x(12)), i = next(x(10)), y = next(x(11)))
+print(Nameof)
+
+#сортировка
+sortrirovka = sorted(Nameof, key=Nameof.get)
+print(sortrirovka)
+
+FILE = open('F2.txt', 'w+')
+FILE.write(str(sortrirovka))
+FILE.close()
+
+#cортировка от большего к меньшему + файл
+min_max = sorted(Nameof.items(), key=operator.itemgetter(1))
+print(min_max)
+
+FILE = open('F3.txt', 'w+')
+FILE.write(str(min_max))
+FILE.close()
+
+
+#список из значений словаря, разделенный на два 
+Sum = sum(Nameof.values())
+avg = Sum/len(Nameof.values())
+S = [int(avg)]
+K = list(Nameof.values())
+A = []
+M = []
+n = 1
+for n in range(len(Nameof.values())):
+    if K[n] < S[0]:
+        A.append(K[n])
+    else :
+        M.append(K[n])
+
+print(A)
+print(M)
