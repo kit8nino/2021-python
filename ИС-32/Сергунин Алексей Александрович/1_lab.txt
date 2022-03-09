@@ -1,0 +1,67 @@
+import operator
+
+def f(n):
+    if n == 0:
+        return 1
+    return f(n-1) * n
+
+
+dict = {'N': f(2), 'S': f(9), 'G': f(13), 'I': f(6), 'J': f(14)}
+print(dict)
+
+#Задание 1
+
+sorted_dict = sorted(dict.items())
+
+print(sorted_dict)
+
+file_to_save = open('Second.txt', 'w+')
+file_to_save.write(str(sorted_dict))
+file_to_save.close()
+
+#Задание 2
+
+sorted_by_value_dict = sorted(dict.items(), key=operator.itemgetter(1), reverse=True)
+
+print(sorted_by_value_dict)
+
+file_to_save = open('Third.txt', 'w+')
+file_to_save.write(str(sorted_by_value_dict))
+file_to_save.close()
+
+#Задание 3
+
+dict_for_gen = {'D': 3, 'F': 5, 'V': 12, 'T': 25, 'J': 15}
+
+fun_gen = {key: f(int(value)) for key, value in dict_for_gen.items()}
+
+print(fun_gen)
+######################
+
+
+def fun_gen(x):
+    y = 1
+    for i in range(x):
+        if i in (0,1):
+            yield 1
+        else:
+            y = y*i
+            yield y
+
+
+for i in fun_gen(10):
+    print(i)
+
+#Задание 4
+
+dict_for_5 = {'S': 3, 'A': 2, 'C': 22, 'F': 15, 'O': 25}
+
+g = dict_for_5.values()
+
+sred = (sum(g) / len(g))  # Считает среднее арифметическое
+
+dict_for_5_1 = [i for i in g if i < sred]
+dict_for_5_2 = [i for i in g if i > sred]
+
+print(dict_for_5_1)
+print(dict_for_5_2)
