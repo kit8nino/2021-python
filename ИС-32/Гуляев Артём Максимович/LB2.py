@@ -116,7 +116,6 @@ def bfs(maze, coord, t):
         b[ys] = ","
         maze[xs] = ''.join(b)
         count += 1
-
 def find_a_way(maze, coord, possible_ways):
 
     len_y, len_x = len(maze), len(maze[0])
@@ -125,7 +124,7 @@ def find_a_way(maze, coord, possible_ways):
     if not is_coord_in_maze(maze, coord):
         print('not in bounds!')
         return
-
+    
     if len(current_path) > len(path_to_exit):
         print('too large path')
 
